@@ -1,0 +1,60 @@
+﻿@model FindYourCarMechanic.ConfirmedRepairTransferObject
+
+@{
+    ViewData["Title"] = "CreateRepair";
+}
+
+<h1>Select date and your car that you want to diagnose</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateRepair">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MechanicId" />
+
+            <div class="form-group">
+                Date:
+
+                <div>
+                    @Html.TextBoxFor(model => model.StartDate,
+                   new { @type = "date", @class = "form-control datepicker", @Value = Model.StartDate.ToString("yyyy-MM-dd") })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            Hour:
+            <div>
+                @Html.TextBoxFor(m => m.StartHour, new { @class = @"timepicker" })
+            </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+
+                    Car:
+
+                    <select asp-for="CarId" class="form-control">
+                        <option value="">Select your car</option>
+                        @foreach (var item in ViewBag.CarsList)
+                        {
+                            <option value=@item.Id>@item.Brand - @item.Model</option>
+                        }
+                    </select>
+
+                    <span asp-validation-for="CarId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Mechanic">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
